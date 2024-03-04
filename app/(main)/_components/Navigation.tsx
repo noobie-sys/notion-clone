@@ -1,14 +1,26 @@
 import { cn } from "@/lib/utils";
-import { ChevronsLeft, MenuIcon } from "lucide-react";
+import {
+  ChevronsLeft,
+  MenuIcon,
+  PlusCircle,
+  Search,
+  Settings,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import React, { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import UserItem from "./UserItem";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Item } from "./item";
+import { toast } from "sonner";
+import { DocumentList } from "./documentList";
 
 const Navigation = () => {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const create = useMutation(api.documents.create);
 
   const isResizing = useRef<boolean>(false);
   const sideBarRef = useRef<ElementRef<"aside">>(null);
@@ -26,11 +38,11 @@ const Navigation = () => {
     }
   }, [isMobile]);
 
-  useEffect(()=>{
-    if(isMobile){
-        collapse()
+  useEffect(() => {
+    if (isMobile) {
+      collapse();
     }
-  },[pathname , isMobile])
+  }, [pathname, isMobile]);
 
   const handleMouseDown = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -84,6 +96,17 @@ const Navigation = () => {
     }
   };
 
+  // function of creating new untitiled document
+
+  const onCreate = () => {
+    const promise = create({ title: "Untitled" });
+    toast.promise(promise, {
+      loading: "Creating new note..",
+      success: "New Note created!",
+      error: "Failed to create a note",
+    });
+  };
+
   return (
     <>
       <aside
@@ -106,9 +129,12 @@ const Navigation = () => {
         </div>
         <div>
           <UserItem />
+          <Item label="Search" icon={Search} isSearch onClick={() => {}} />
+          <Item onClick={() => {}} label="Settings" icon={Settings} />
+          <Item onClick={onCreate} label="New Page" icon={PlusCircle} />
         </div>
         <div className="mt-4 ">
-          <p>Documents</p>
+          <DocumentList />
         </div>
         <div
           onMouseDown={handleMouseDown}
