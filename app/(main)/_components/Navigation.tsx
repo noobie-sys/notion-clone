@@ -36,6 +36,15 @@ const Navigation = () => {
 
   // console.log(isCollapsed , isMobile)
 
+  interface Props {
+    name : string,
+    class : string
+  }
+
+  // const a : Partial = {
+  //   name : "aman",class : "Success"
+  // }
+
   useEffect(() => {
     if (isMobile) {
       collapse();
