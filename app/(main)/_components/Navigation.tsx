@@ -22,6 +22,7 @@ import { api } from "@/convex/_generated/api";
 import { Item } from "./item";
 import { toast } from "sonner";
 import { DocumentList } from "./documentList";
+import TrashBox from "./TrashBox";
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -41,9 +42,6 @@ const Navigation = () => {
     class : string
   }
 
-  // const a : Partial = {
-  //   name : "aman",class : "Success"
-  // }
 
   useEffect(() => {
     if (isMobile) {
@@ -156,7 +154,7 @@ const Navigation = () => {
               <Item label="Trash"  icon={Trash} />
             </PopoverTrigger>
             <PopoverContent className="p-1 w-72" side={isMobile ? "bottom" : "right"}>
-                <p>Trash Box</p>
+                <TrashBox />
             </PopoverContent>
           </Popover>
         </div>

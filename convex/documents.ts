@@ -88,7 +88,7 @@ export const create = mutation({
 
 
 export const getTrash = query({
-  handler : async (ctx , args) => {
+  handler : async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Not authenticated");
@@ -160,10 +160,11 @@ export const remove = mutation({
     const userId = identity.subject;
 
     const existingDocuments = await ctx.db.get(args.id);
+    // console.log(existingDocuments?._id , userId)
     if(!existingDocuments) {
       throw new Error("Not Found")
     }
-    if(existingDocuments._id !== userId){
+    if(existingDocuments.userId !== userId){
       throw new Error("Not Authorized")
     }
 
