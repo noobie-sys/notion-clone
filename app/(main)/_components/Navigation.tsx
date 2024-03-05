@@ -3,9 +3,15 @@ import {
   ChevronsLeft,
   MenuIcon,
   PlusCircle,
+  PlusIcon,
   Search,
   Settings,
+  Trash,
 } from "lucide-react";
+
+import { Popover , PopoverContent , PopoverTrigger } from "@/components/ui/popover";
+
+
 import { usePathname } from "next/navigation";
 
 import React, { ElementRef, useEffect, useRef, useState } from "react";
@@ -135,6 +141,15 @@ const Navigation = () => {
         </div>
         <div className="mt-4 ">
           <DocumentList />
+          <Item onClick={onCreate} icon={PlusIcon} label="New Page"  />
+          <Popover>
+            <PopoverTrigger className="w-full mt-4">
+              <Item label="Trash"  icon={Trash} />
+            </PopoverTrigger>
+            <PopoverContent className="p-1 w-72" side={isMobile ? "bottom" : "right"}>
+                <p>Trash Box</p>
+            </PopoverContent>
+          </Popover>
         </div>
         <div
           onMouseDown={handleMouseDown}
